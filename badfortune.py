@@ -23,6 +23,7 @@
 # THE SOFTWARE.
 
 import struct, random, string
+print('hello world')
 
 # C long variables are different sizes on 32-bit and 64-bit machines,
 # so we have to measure how big they are on the machine where this is running.
