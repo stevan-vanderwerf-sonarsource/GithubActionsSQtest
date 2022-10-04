@@ -14,7 +14,7 @@ jobs:
   skipped-cli-qg:
 #     needs: check-what-to-build
 #     if: needs.check-what-to-build.outputs.run_cli == 'false'
-    name: "SonarQube Code Analysis"
+    name: "[GitHub project] SonarQube Code Analysis"
     runs-on: ubuntu-latest
     steps:
       - name: Exit with success
