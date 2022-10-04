@@ -10,10 +10,19 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
+  check-what-to-build:
+    name: Check what to build
+    outputs:
+      run_cli: 'false'
+    runs-on: ubuntu-latest
+    steps:
+      - name: check branch and modified files
+        id: check_files
+        run: echo "hello world"
   # This workflow contains a single job called "build"
   skipped-cli-qg:
-#     needs: check-what-to-build
-#     if: needs.check-what-to-build.outputs.run_cli == 'false'
+    needs: check-what-to-build
+    if: needs.check-what-to-build.outputs.run_cli == 'false'
     name: "[GitHub project] SonarQube Code Analysis"
     runs-on: ubuntu-latest
     steps:
