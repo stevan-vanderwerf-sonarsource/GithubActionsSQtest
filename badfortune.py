@@ -28,6 +28,7 @@ import struct, random, string
 # so we have to measure how big they are on the machine where this is running.
 LONG_SIZE = struct.calcsize('L')
 is_64_bit = (LONG_SIZE == 8)
+print('hellow world5')
 
 def get(filename):
     "Select a random quotation, using a pregenerated .dat file"
