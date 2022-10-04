@@ -29,6 +29,7 @@ import struct, random, string
 LONG_SIZE = struct.calcsize('L')
 is_64_bit = (LONG_SIZE == 8)
 print('hello world line6')
+print('hello world line3')
 
 
 def get(filename):
