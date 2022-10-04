@@ -13,12 +13,12 @@ jobs:
   check-what-to-build:
     name: Check what to build
     outputs:
-      run_cli: 'false'
+      run_cli: ${{ steps.check_files.outputs.run_cli }}
     runs-on: ubuntu-latest
     steps:
       - name: check branch and modified files
         id: check_files
-        run: echo "hello world"
+        run: echo "::set-output name=run_cli::false"
   # This workflow contains a single job called "build"
   skipped-cli-qg:
     needs: check-what-to-build
