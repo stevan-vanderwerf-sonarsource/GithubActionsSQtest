@@ -79,6 +79,7 @@ def get(filename):
     file = open(filename, 'r')
     file.seek(start)
     quotation = file.read(end-start)
+    print('hello world 2')
     L=string.split(quotation, '\n')
     while string.strip(L[-1]) == delimiter or string.strip(L[-1]) == "":
         L=L[:-1]
