@@ -1,36 +1,66 @@
-# This is a basic workflow to help you get started with Actions
-
-name: CI
-
-# Controls when the workflow will run
+name: Build
 on:
-#   push:
-#     branches:
-#       - main # or the name of your main branch
-#   pull_request:
-#     types: [opened, synchronize, reopened]
+  push:
+    branches:
+      - master # or the name of your main branch
+  pull_request:
+    types: [opened, synchronize, reopened]
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
-  # publish blog using webhook
-  repository_dispatch:
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  check-what-to-build:
-    name: Check what to build
-    outputs:
-      run_cli: ${{ steps.check_files.outputs.run_cli }}
+  build:
+    name: Build
     runs-on: ubuntu-latest
     steps:
-      - name: check branch and modified files
-        id: check_files
-        run: echo "::set-output name=run_cli::false"
-  # This workflow contains a single job called "build"
-  skipped-cli-qg:
-    needs: check-what-to-build
-    if: needs.check-what-to-build.outputs.run_cli == 'false'
-    name: "[GitHub project] SonarQube Code Analysis"
-    runs-on: ubuntu-latest
-    steps:
-      - name: Exit with success
-        run: exit 0
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: sonarsource/sonarqube-scan-action@master
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+      # If you wish to fail your job when the Quality Gate is red, uncomment the
+      # following lines. This would typically be used to fail a deployment.
+      # We do not recommend to use this in a pull request. Prefer using pull request
+      # decoration instead.
+      # - uses: sonarsource/sonarqube-quality-gate-action@master
+      #   timeout-minutes: 5
+      #   env:
+      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+# # This is a basic workflow to help you get started with Actions
+
+# name: CI
+
+# # Controls when the workflow will run
+# on:
+# #   push:
+# #     branches:
+# #       - main # or the name of your main branch
+# #   pull_request:
+# #     types: [opened, synchronize, reopened]
+#   # Allows you to run this workflow manually from the Actions tab
+#   workflow_dispatch:
+#   # publish blog using webhook
+#   repository_dispatch:
+
+# # A workflow run is made up of one or more jobs that can run sequentially or in parallel
+# jobs:
+#   check-what-to-build:
+#     name: Check what to build
+#     outputs:
+#       run_cli: ${{ steps.check_files.outputs.run_cli }}
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: check branch and modified files
+#         id: check_files
+#         run: echo "::set-output name=run_cli::false"
+#   # This workflow contains a single job called "build"
+#   skipped-cli-qg:
+#     needs: check-what-to-build
+#     if: needs.check-what-to-build.outputs.run_cli == 'false'
+#     name: "[GitHub project] SonarQube Code Analysis"
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Exit with success
+#         run: exit 0
